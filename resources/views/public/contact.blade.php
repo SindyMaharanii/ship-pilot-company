@@ -30,48 +30,48 @@
         @endif
         
         <div class="row g-4">
-            <!-- Telepon -->
+            <!-- TELEPON -->
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card border-0 shadow-lg rounded-4 text-center h-100">
                     <div class="card-body p-4">
-                        <div class="icon-circle">
-                            <i class="fas fa-phone-alt fa-2x"></i>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                            <i class="fas fa-phone-alt" style="font-size: 28px;"></i>
                         </div>
                         <h5 class="fw-bold">Telepon</h5>
                         <p class="text-muted mb-2">Layanan 24 Jam</p>
-                        <h6 class="text-primary">+62 123 4567 890</h6>
+                        <h6 class="text-primary">{{ $contact->phone ?? '+62 123 4567 890' }}</h6>
                         <hr>
                         <small class="text-muted">Emergency Hotline: +62 123 4567 891</small>
                     </div>
                 </div>
             </div>
-            
-            <!-- Email -->
+
+            <!-- EMAIL -->
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card border-0 shadow-lg rounded-4 text-center h-100">
                     <div class="card-body p-4">
-                        <div class="icon-circle">
-                            <i class="fas fa-envelope fa-2x"></i>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                            <i class="fas fa-envelope" style="font-size: 28px;"></i>
                         </div>
                         <h5 class="fw-bold">Email</h5>
                         <p class="text-muted mb-2">Balasan dalam 24 jam</p>
-                        <h6 class="text-primary">info@shippilot.com</h6>
+                        <h6 class="text-primary">{{ $contact->email ?? 'info@shippilot.com' }}</h6>
                         <hr>
-                        <small class="text-muted">support@shippilot.com</small>
+                        <small class="text-muted">maharanisindy@gmail.com</small>
                     </div>
                 </div>
             </div>
-            
-            <!-- Alamat -->
+
+            <!-- ALAMAT -->
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card border-0 shadow-lg rounded-4 text-center h-100">
                     <div class="card-body p-4">
-                        <div class="icon-circle">
-                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 28px;"></i>
                         </div>
                         <h5 class="fw-bold">Alamat</h5>
                         <p class="text-muted mb-2">Kantor Cabang Batam Wilayah 1</p>
-                        <h6 class="text-primary">Batam, Kepulauan Riau</h6>
+                        <h6 class="text-primary">{{ $contact->address ?? 'Batam, Kepulauan Riau' }}</h6>
                         <hr>
                         <small class="text-muted">Lihat peta di bawah</small>
                     </div>
@@ -80,12 +80,13 @@
         </div>
     </div>
 </section>
+        
+
 
 <!-- Contact Form & Map -->
 <section class="py-5 bg-light">
     <div class="container">
         <div class="row">
-            <!-- Form -->
             <div class="col-lg-6 mb-4" data-aos="fade-right">
                 <div class="card border-0 shadow-lg rounded-4">
                     <div class="card-header bg-gradient-primary text-white py-3 rounded-top-4">
@@ -162,7 +163,6 @@
                 </div>
             </div>
             
-            <!-- Map & Info -->
             <div class="col-lg-6 mb-4" data-aos="fade-left">
                 <div class="card border-0 shadow-lg rounded-4">
                     <div class="card-header bg-gradient-primary text-white py-3 rounded-top-4">
@@ -295,6 +295,45 @@
     </div>
 </section>
 
+@section('scripts')
+<script>
+    // Initialize contact map
+    var contactMap = L.map('contactMap').setView([-6.2088, 106.8456], 15);
+    
+    // Gunakan tile layer yang benar (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(contactMap);
+    
+    // Custom icon untuk marker
+    var officeIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div style="background-color: #0066cc; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                <i class="fas fa-building" style="color: white; font-size: 20px;"></i>
+              </div>`,
+        iconSize: [40, 40],
+        popupAnchor: [0, -20]
+    });
+    
+    // Marker dengan koordinat kantor Anda
+    // Ganti koordinat ini dengan koordinat kantor sebenarnya
+    var officeLat = -6.2088;  // Ganti dengan latitude kantor Anda
+    var officeLng = 106.8456; // Ganti dengan longitude kantor Anda
+    
+    L.marker([officeLat, officeLng], {icon: officeIcon})
+        .addTo(contactMap)
+        .bindPopup(`
+            <b>Ship Pilot Company</b><br>
+            Kantor Pusat<br>
+            Jl. Contoh No. 123, Jakarta<br>
+            <a href="https://maps.app.goo.gl/5Bnmo6wvfAN2r8a29" target="_blank" style="color: #0066cc;">
+                <i class="fas fa-external-link-alt"></i> Buka di Google Maps
+            </a>
+        `)
+        .openPopup();
+</script>
+@endsection
+
 <style>
     .bg-gradient-primary {
         background: linear-gradient(135deg, #0066cc, #00aaff);
@@ -311,46 +350,4 @@
         color: white;
     }
 </style>
-
-@push('scripts')
-<script>
-    // Initialize contact map
-    var contactMap = L.map('contactMap').setView([1.0825, 104.0305], 13);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(contactMap);
-    
-    // Custom icon untuk marker
-    var officeIcon = L.divIcon({
-        className: 'custom-div-icon',
-        html: `<div style="background-color: #0066cc; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-                <i class="fas fa-building" style="color: white; font-size: 18px;"></i>
-              </div>`,
-        iconSize: [40, 40],
-        popupAnchor: [0, -20]
-    });
-    
-    // Koordinat Batam
-    var officeLat = 1.0825;
-    var officeLng = 104.0305;
-    
-    L.marker([officeLat, officeLng], {icon: officeIcon})
-        .addTo(contactMap)
-        .bindPopup(`
-            <b>Ship Pilot Company</b><br>
-            Kantor Cabang Batam Wilayah 1<br>
-            Batam, Kepulauan Riau<br>
-            <a href="https://maps.app.goo.gl/5Bnmo6wvfAN2r8a29" target="_blank" style="color: #0066cc;">
-                <i class="fas fa-external-link-alt"></i> Buka di Google Maps
-            </a>
-        `)
-        .openPopup();
-        
-    // Resize map setelah load
-    setTimeout(function() {
-        contactMap.invalidateSize();
-    }, 500);
-</script>
-@endpush
 @endsection

@@ -34,7 +34,8 @@
                         <div>
                             <div class="service-icon-large text-center mb-4">
                                 <div class="bg-gradient-primary rounded-circle p-3 d-inline-block">
-                                    <i class="fas fa-{{ $service->icon ?? 'anchor' }} fa-3x text-white"></i>
+                                    <!-- ICON DEFAULT SHIP (TANPA ICON DARI DATABASE) -->
+                                    <i class="fas fa-ship fa-3x text-white"></i>
                                 </div>
                             </div>
                             <h4 class="fw-bold text-center mb-3">{{ $service->name }}</h4>

@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Partnership;
 use App\Models\PilotShip;
 use App\Models\Contact;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -97,10 +98,11 @@ class PublicController extends Controller
     }
     
     // Halaman kontak
-    public function contact()
-    {
-        return view('public.contact');
-    }
+   public function contact()
+{
+    $contact = ContactInfo::first();
+    return view('public.contact', compact('contact'));
+}
     
     // Proses submit form kontak
     public function submitContact(Request $request)

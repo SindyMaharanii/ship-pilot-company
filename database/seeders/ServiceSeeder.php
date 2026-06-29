@@ -10,54 +10,16 @@ class ServiceSeeder extends Seeder
     public function run()
     {
         $services = [
-            [
-                'name' => 'Pemanduan Kapal',
-                'description' => 'Layanan pemanduan kapal untuk masuk dan keluar pelabuhan dengan aman dan tepat waktu.',
-                'icon' => 'ship',
-                'order' => 1,
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Penundaan Kapal',
-                'description' => 'Jasa penundaan kapal menggunakan tugboat untuk membantu maneuver kapal di perairan pelabuhan.',
-                'icon' => 'anchor',
-                'order' => 2,
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Navigasi Maritim',
-                'description' => 'Layanan navigasi dan konsultasi rute pelayaran teraman untuk kapal niaga dan wisata.',
-                'icon' => 'compass',
-                'order' => 3,
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Konsultasi Logistik',
-                'description' => 'Solusi logistik maritim terintegrasi untuk efisiensi biaya dan waktu operasional.',
-                'icon' => 'boxes',
-                'order' => 4,
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Manajemen Armada',
-                'description' => 'Pengelolaan armada kapal secara profesional dengan teknologi monitoring terkini.',
-                'icon' => 'chart-line',
-                'order' => 5,
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Pelatihan & Sertifikasi',
-                'description' => 'Program pelatihan dan sertifikasi untuk awak kapal sesuai standar internasional.',
-                'icon' => 'graduation-cap',
-                'order' => 6,
-                'is_active' => true,
-            ],
+            ['name' => 'Pandu Masuk', 'description' => 'Layanan pandu untuk kapal yang akan masuk pelabuhan', 'procedure' => '1. Koordinasi dengan syahbandar\n2. Pergerakan kapal pandu\n3. Pandu kapal masuk', 'advantages' => 'Cepat, profesional, dan terjamin keselamatannya', 'order' => 1, 'is_active' => true],
+            ['name' => 'Pandu Keluar', 'description' => 'Layanan pandu untuk kapal yang akan keluar pelabuhan', 'procedure' => '1. Koordinasi dengan syahbandar\n2. Pergerakan kapal pandu\n3. Pandu kapal keluar', 'advantages' => 'Cepat, profesional, dan tepat waktu', 'order' => 2, 'is_active' => true],
+            ['name' => 'Penundaan Kapal', 'description' => 'Layanan penundaan kapal menggunakan tugboat', 'procedure' => '1. Permohonan penundaan\n2. Pergerakan tugboat\n3. Penundaan kapal', 'advantages' => 'Armada tugboat modern dan berpengalaman', 'order' => 3, 'is_active' => true],
         ];
 
         foreach ($services as $service) {
-            Service::create($service);
+            if (!Service::where('name', $service['name'])->exists()) {
+                Service::create($service);
+            }
         }
-
-        $this->command->info('Service data seeded successfully!');
+        $this->command->info('✅ Services berhasil dibuat!');
     }
 }

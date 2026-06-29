@@ -145,12 +145,14 @@
 <section class="py-5">
     <div class="container">
         <div class="row">
+            <!-- Visi -->
             <div class="col-lg-6 mb-4" data-aos="fade-right">
                 <div class="card border-0 shadow-lg rounded-4 h-100 overflow-hidden">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block">
-                                <i class="fas fa-eye text-primary fa-3x"></i>
+                            <!-- ===== BULAT BIRU DENGAN ICON MATA ===== -->
+                            <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; background: #e3f2fd; color: #0066cc;">
+                                <i class="fas fa-eye" style="font-size: 36px;"></i>
                             </div>
                         </div>
                         <h3 class="text-center fw-bold mb-4">Visi</h3>
@@ -158,12 +160,15 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Misi -->
             <div class="col-lg-6 mb-4" data-aos="fade-left">
                 <div class="card border-0 shadow-lg rounded-4 h-100 overflow-hidden">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block">
-                                <i class="fas fa-bullseye text-primary fa-3x"></i>
+                            <!-- ===== BULAT BIRU DENGAN ICON TARGET ===== -->
+                            <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; background: #e3f2fd; color: #0066cc;">
+                                <i class="fas fa-bullseye" style="font-size: 36px;"></i>
                             </div>
                         </div>
                         <h3 class="text-center fw-bold mb-4">Misi</h3>
@@ -171,6 +176,7 @@
                             <li class="mb-3 d-flex align-items-start">
                                 <i class="fas fa-check-circle text-primary mt-1 me-3"></i>
                                 <span class="text-muted">Mewujudkan jaringan ekosistem maritim nasional melalui pengelolaan jasa kemaritiman yang handal, efisien, agile dan memenuhi harapan seluruh stakeholder untuk mendukung pertumbuhan ekonomi indonesia.</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -190,8 +196,8 @@
             <!-- 1. AMANAH -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-user-check text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-user-check" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold mb-3">Amanah</h5>
                     <p class="text-muted">Memegang teguh kepercayaan yang diberikan dengan penuh tanggung jawab dan moralitas tinggi.</p>
@@ -201,8 +207,8 @@
             <!-- 2. KOMPETEN -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-graduation-cap text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-graduation-cap" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold mb-3">Kompeten</h5>
                     <p class="text-muted">Terus belajar, mengembangkan kapabilitas diri, dan menyelesaikan tugas dengan kualitas terbaik.</p>
@@ -212,8 +218,8 @@
             <!-- 3. HARMONIS -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-hands text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-hands" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold mb-3">Harmonis</h5>
                     <p class="text-muted">Saling peduli, menghargai perbedaan latar belakang, dan membangun lingkungan kerja yang kondusif.</p>
@@ -223,8 +229,8 @@
             <!-- 4. LOYAL -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-heart text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-heart" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold mb-3">Loyal</h5>
                     <p class="text-muted">Berdedikasi tinggi dan mengutamakan kepentingan Bangsa, Negara, serta menjaga nama baik perusahaan.</p>
@@ -234,8 +240,8 @@
             <!-- 5. ADAPTIF -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-sync-alt text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-sync-alt" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold mb-3">Adaptif</h5>
                     <p class="text-muted">Cepat menyesuaikan diri, terus berinovasi mengikuti teknologi, dan bertindak proaktif menghadapi perubahan.</p>
@@ -245,8 +251,8 @@
             <!-- 6. KOLABORATIF -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-handshake text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-handshake" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold mb-3">Kolaboratif</h5>
                     <p class="text-muted">Membangun kerja sama yang sinergis dan terbuka dengan berbagai pihak untuk memberi nilai tambah.</p>

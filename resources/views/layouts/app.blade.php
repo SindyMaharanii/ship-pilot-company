@@ -571,6 +571,15 @@
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
                     </li>
+                     <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.contacts.index') }}" style="color: #ffc107;">
+            <i class="fas fa-envelope"></i> Pesan Masuk
+            @php $unread = App\Models\Contact::where('is_read', false)->count(); @endphp
+            @if($unread > 0)
+                <span class="badge bg-danger" style="font-size: 9px;">{{ $unread }}</span>
+            @endif
+        </a>
+    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.ships.index') }}" style="color: #ffc107;">
                             <i class="fas fa-ship"></i> Kelola Armada

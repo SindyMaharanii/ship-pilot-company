@@ -86,17 +86,17 @@
         </div>
         <div class="row">
             @forelse($services as $service)
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
-                <div class="card card-hover h-100 text-center p-4 shadow-sm rounded-4">
-                    <div class="service-icon mx-auto">
-                        <i class="fas fa-{{ $service->icon ?? 'anchor' }} fa-2x"></i>
-                    </div>
-                    <h5 class="mt-3 fw-bold">{{ $service->name }}</h5>
-                    <p class="text-muted">{{ Str::limit($service->description, 100) }}</p>
-                    <a href="{{ route('services') }}" class="btn btn-outline-gradient rounded-pill mt-3">Selengkapnya <i class="fas fa-arrow-right ms-2"></i></a>
-                </div>
-            </div>
-            @empty
+<div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
+    <div class="card card-hover h-100 text-center p-4 shadow-sm rounded-4">
+        <div class="service-icon mx-auto">
+            <i class="fas fa-ship fa-2x"></i>  <!-- Ganti dengan icon default -->
+        </div>
+        <h5 class="mt-3 fw-bold">{{ $service->name }}</h5>
+        <p class="text-muted">{{ Str::limit($service->description, 100) }}</p>
+        <a href="{{ route('services') }}" class="btn btn-outline-gradient rounded-pill mt-3">Selengkapnya <i class="fas fa-arrow-right ms-2"></i></a>
+    </div>
+</div>
+@empty
             <div class="col-12 text-center">
                 <p>Belum ada layanan.</p>
             </div>
@@ -384,27 +384,30 @@
 </script>
 
 <!-- Partner Section -->
-<section class="py-5 bg-light">
+<section class="py-5">
     <div class="container">
         <div class="section-title" data-aos="fade-up">
             <h2>Mitra Kerja Sama</h2>
             <p class="subtitle">Bersama membangun kemitraan yang kuat dan saling menguntungkan</p>
         </div>
-        <div class="row align-items-center">
+        <div class="row">
             @forelse($partnerships as $partner)
-            <div class="col-lg-2 col-md-3 col-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
-                <div class="text-center">
+            <div class="col-xl-2 col-lg-3 col-md-3 col-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
+                <!-- ===== CARD DENGAN BORDER + SHADOW (SAMA DENGAN DASHBOARD) ===== -->
+                <div class="card text-center p-3 h-100 border shadow-sm rounded-4">
                     @if($partner->logo)
-                    <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->partner_name }}" class="img-fluid partner-logo" style="height: 60px;">
+                    <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->partner_name }}" class="mx-auto" style="height: 60px; object-fit: contain;">
                     @else
-                    <i class="fas fa-building fa-3x text-secondary partner-logo"></i>
+                    <div style="height: 60px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-building fa-3x text-secondary"></i>
+                    </div>
                     @endif
-                    <p class="small mt-2">{{ $partner->partner_name }}</p>
+                    <p class="small fw-bold mt-2 mb-0">{{ $partner->partner_name }}</p>
                 </div>
             </div>
             @empty
             <div class="col-12 text-center">
-                <p>Belum ada mitra.</p>
+                <div class="alert alert-info">Belum ada mitra.</div>
             </div>
             @endforelse
         </div>

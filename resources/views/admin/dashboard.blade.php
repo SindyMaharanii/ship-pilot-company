@@ -6,9 +6,8 @@
 <!-- ===== FULL WIDTH ===== -->
 <div class="container-fluid px-0">
 
-    <!-- ===== HERO SECTION - SAMA PERSIS DENGAN PUBLIC ===== -->
+    <!-- ===== HERO SECTION ===== -->
     <section class="hero-section position-relative" style="height: 100vh; background: linear-gradient(135deg, #001a33 0%, #003366 100%); overflow: hidden;">
-        <!-- ADMIN PANEL di Hero (cuma ini yang beda) -->
         <div class="position-absolute top-0 start-0 w-100 p-3" style="z-index: 10;">
             <div class="admin-panel-bar" style="background: rgba(255, 249, 230, 0.95); backdrop-filter: blur(10px); border: 1px solid #ffc107; border-radius: 12px; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.15); margin: 0 20px;">
                 <div class="admin-title" style="display: flex; align-items: center; gap: 10px;">
@@ -103,6 +102,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Pesan Masuk</h5>
                         <h2 class="mb-0">{{ $pendingContacts ?? 0 }}</h2>
+                        @if(($unreadContacts ?? 0) > 0)
+                            <small class="text-warning">{{ $unreadContacts }} belum dibaca</small>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -116,25 +118,25 @@
                     <p class="text-muted mb-0 small">Layanan pandu kapal profesional</p>
                 </div>
                 <div>
-                    <button class="btn btn-success btn-sm" onclick="alert('Tambah Layanan')">
+                    <a href="{{ route('admin.services.create') }}" class="btn btn-success btn-sm">
                         <i class="fas fa-plus me-1"></i> Tambah
-                    </button>
-                    <button class="btn btn-primary btn-sm" onclick="alert('Lihat Semua Layanan')">
+                    </a>
+                    <a href="{{ route('admin.services.index') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-list me-1"></i> Lihat Semua
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="row">
                 @forelse($services ?? [] as $service)
                 <div class="col-xl-4 col-lg-6 col-md-6 mb-3 position-relative admin-section">
-                    <button class="admin-edit-btn" onclick="alert('Edit layanan: {{ $service->name }}')">
+                    <button class="admin-edit-btn" onclick="location.href='{{ route('admin.services.edit', $service->id) }}'">
                         <i class="fas fa-edit"></i> Edit
                     </button>
                     <div class="card h-100 text-center p-3">
-                        <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto">
-                            <i class="fas fa-{{ $service->icon ?? 'anchor' }} fa-2x text-primary"></i>
+                        <div class="bg-gradient-primary rounded-circle p-3 d-inline-block mx-auto" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-ship fa-2x text-white"></i>
                         </div>
-                        <h5 class="mt-2">{{ $service->name }}</h5>
+                        <h5 class="mt-3">{{ $service->name }}</h5>
                         <p class="small text-muted">{{ Str::limit($service->description, 60) }}</p>
                         <a href="{{ route('services') }}" class="btn btn-outline-primary btn-sm rounded-pill">
                             Selengkapnya
@@ -144,9 +146,9 @@
                 @empty
                 <div class="col-12 text-center py-4">
                     <p class="text-muted">Belum ada layanan.</p>
-                    <button class="btn btn-success btn-sm" onclick="alert('Tambah Layanan')">
+                    <a href="{{ route('admin.services.create') }}" class="btn btn-success btn-sm">
                         <i class="fas fa-plus me-1"></i> Tambah Layanan
-                    </button>
+                    </a>
                 </div>
                 @endforelse
             </div>
@@ -213,18 +215,18 @@
                     <p class="text-muted mb-0 small">Mitra terpercaya yang telah bekerja sama</p>
                 </div>
                 <div>
-                    <button class="btn btn-success btn-sm" onclick="alert('Tambah Mitra')">
+                    <a href="{{ route('admin.partnerships.create') }}" class="btn btn-success btn-sm">
                         <i class="fas fa-plus me-1"></i> Tambah
-                    </button>
-                    <button class="btn btn-primary btn-sm" onclick="alert('Lihat Semua Mitra')">
+                    </a>
+                    <a href="{{ route('admin.partnerships.index') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-list me-1"></i> Lihat Semua
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="row">
                 @forelse($partnerships ?? [] as $partner)
                 <div class="col-xl-2 col-lg-3 col-md-3 col-4 mb-3 position-relative admin-section">
-                    <button class="admin-edit-btn" style="font-size:10px; padding:2px 12px;" onclick="alert('Edit mitra: {{ $partner->partner_name }}')">
+                    <button class="admin-edit-btn" style="font-size:10px; padding:2px 12px;" onclick="location.href='{{ route('admin.partnerships.edit', $partner->id) }}'">
                         <i class="fas fa-edit"></i>
                     </button>
                     <div class="card text-center p-3 h-100">
@@ -239,11 +241,111 @@
                 @empty
                 <div class="col-12 text-center py-4">
                     <p class="text-muted">Belum ada mitra.</p>
-                    <button class="btn btn-success btn-sm" onclick="alert('Tambah Mitra')">
+                    <a href="{{ route('admin.partnerships.create') }}" class="btn btn-success btn-sm">
                         <i class="fas fa-plus me-1"></i> Tambah Mitra
-                    </button>
+                    </a>
                 </div>
                 @endforelse
+            </div>
+        </div>
+
+        <!-- ===== MENU ADMIN (RAPI) ===== -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-cog me-2"></i> Menu Admin</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Kelola Kapal -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('admin.ships.index') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-ship fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Kelola Kapal</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Kelola Layanan -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('admin.services.index') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-concierge-bell fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Kelola Layanan</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Kelola Mitra -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('admin.partnerships.index') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-handshake fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Kelola Mitra</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Pesan Masuk -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('admin.contacts.index') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-envelope fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Pesan Masuk</h6>
+                                            @php $unread = App\Models\Contact::where('is_read', false)->count(); @endphp
+                                            <small class="text-muted">
+                                                @if($unread > 0)
+                                                    <span class="badge bg-danger">{{ $unread }}</span> belum dibaca
+                                                @else
+                                                    <span class="badge bg-success">0</span> belum dibaca
+                                                @endif
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Profil Perusahaan -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('admin.company.index') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-building fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Profil Perusahaan</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Kelola Kontak -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('admin.contact.index') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-address-card fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Kelola Kontak</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Tracking -->
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('tracking') }}" class="text-decoration-none">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-map-marker-alt fa-3x text-primary mb-2"></i>
+                                            <h6 class="mb-0">Tracking Kapal</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -261,7 +363,6 @@
 </div>
 
 <style>
-    /* ===== CARD STATS ===== */
     .card-stats {
         background: #0066cc !important;
         color: white;
@@ -290,7 +391,6 @@
         line-height: 1.2;
     }
 
-    /* ===== ADMIN EDIT BUTTON ===== */
     .admin-edit-btn {
         position: absolute;
         top: 8px;
@@ -322,14 +422,9 @@
         font-size: 9px;
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-        .card-stats h2 {
-            font-size: 1.6rem;
-        }
-        .card-stats .card-title {
-            font-size: 12px;
-        }
+        .card-stats h2 { font-size: 1.6rem; }
+        .card-stats .card-title { font-size: 12px; }
         .admin-panel-bar {
             flex-direction: column;
             align-items: stretch;
@@ -337,36 +432,17 @@
             padding: 12px 16px !important;
             margin: 0 10px !important;
         }
-        .admin-panel-bar .admin-title {
-            justify-content: center;
-        }
-        .admin-panel-bar > div:last-child {
-            justify-content: center;
-        }
-        .hero-section {
-            height: 80vh !important;
-        }
-        .hero-section h1 {
-            font-size: 2.5rem !important;
-        }
-        .hero-section .lead {
-            font-size: 1rem !important;
-        }
+        .admin-panel-bar .admin-title { justify-content: center; }
+        .admin-panel-bar > div:last-child { justify-content: center; }
+        .hero-section { height: 80vh !important; }
+        .hero-section h1 { font-size: 2.5rem !important; }
+        .hero-section .lead { font-size: 1rem !important; }
     }
     @media (max-width: 576px) {
-        .card-stats h2 {
-            font-size: 1.2rem;
-        }
-        .container-fluid {
-            padding-left: 12px !important;
-            padding-right: 12px !important;
-        }
-        .hero-section {
-            height: 70vh !important;
-        }
-        .hero-section h1 {
-            font-size: 2rem !important;
-        }
+        .card-stats h2 { font-size: 1.2rem; }
+        .container-fluid { padding-left: 12px !important; padding-right: 12px !important; }
+        .hero-section { height: 70vh !important; }
+        .hero-section h1 { font-size: 2rem !important; }
     }
 </style>
 @endsection

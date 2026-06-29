@@ -3,6 +3,11 @@
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ShipController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\PartnershipController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ContactInfoController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -22,11 +27,34 @@ require __DIR__.'/auth.php';
 
 // Admin routes (protected with auth)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // ===== DASHBOARD =====
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // ===== SHIPS (Kapal Pandu) =====
     Route::resource('/ships', ShipController::class);
     Route::post('/ships/{ship}/update-position', [ShipController::class, 'updatePosition'])->name('ships.update-position');
     Route::get('/ships/{ship}/history', [ShipController::class, 'history'])->name('ships.history');
     Route::post('/ships/{ship}/update-status', [ShipController::class, 'updateStatus'])->name('ships.update-status');
+
+    // ===== COMPANY (Profil Perusahaan) - PAKAI RESOURCE =====
+    Route::resource('/company', CompanyController::class);
+
+    // ===== SERVICES (Layanan) =====
+    Route::resource('/services', ServiceController::class);
+
+    // ===== PARTNERSHIPS (Mitra) =====
+    Route::resource('/partnerships', PartnershipController::class);
+
+    // ===== CONTACTS (Pesan) =====
+    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contacts.show');
+    Route::post('/contacts/{id}/reply', [ContactController::class, 'markAsReplied'])->name('contacts.reply');
+    Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+
+    // ===== CONTACT INFO (Info Kontak) =====
+    Route::get('/contact-info', [ContactInfoController::class, 'index'])->name('contact.index');
+    Route::put('/contact-info', [ContactInfoController::class, 'update'])->name('contact.update');
 });
 
 // Dashboard redirect route (important for login redirect)

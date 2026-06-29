@@ -64,37 +64,43 @@
     </div>
 </section>
 
+<!-- Partnership Benefits -->
 <section class="py-5 bg-light">
     <div class="container">
         <div class="section-title" data-aos="fade-up">
-            <h2>Keuntungan Bermitra dengan SPJM Batam</h2>
-            <p class="subtitle">Kolaborasi prima demi kelancaran arus logistik dan keselamatan pelayaran</p>
+            <h2>Keuntungan Bermitra</h2>
+            <p class="subtitle">Bergabung menjadi mitra kami dan rasakan manfaatnya</p>
         </div>
         <div class="row">
+            <!-- 1. Prioritas Pelayanan Pandu -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-anchor text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-clock" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold">Prioritas Pelayanan Pandu</h5>
-                    <p class="text-muted">Alokasi waktu dan kesiapan petugas pandu (Pilot) serta kapal tunda yang responsif untuk kelancaran *berthing* dan *unberthing*.</p>
+                    <p class="text-muted">Alokasi waktu dan kesiapan petugas pandu (Pilot) serta kapal tunda yang responsif untuk kelancaran "berthing" dan "unberthing".</p>
                 </div>
             </div>
+
+            <!-- 2. Standar Safety Internasional -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-shield-alt text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-shield-alt" style="font-size: 28px;"></i>
                     </div>
                     <h5 class="fw-bold">Standar Safety Internasional</h5>
                     <p class="text-muted">Jaminan penanganan pemanduan kapal yang memenuhi regulasi keselamatan pelayaran nasional dan ISPO/ISM Code.</p>
                 </div>
             </div>
+
+            <!-- 3. Integrasi Sistem Digital -->
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
-                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mx-auto mb-3">
-                        <i class="fas fa-network-wired text-primary fa-2x"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px; background: #e3f2fd; color: #0066cc;">
+                        <i class="fas fa-laptop-code" style="font-size: 28px;"></i>
                     </div>
-                    <h5 class="fw-bold">Integrasi Sistem Sistem digital</h5>
+                    <h5 class="fw-bold">Integrasi Sistem Digital</h5>
                     <p class="text-muted">Kemudahan koordinasi bersandar melalui platform monitoring posisi kapal terpadu secara real-time.</p>
                 </div>
             </div>
