@@ -522,6 +522,10 @@
 </head>
 <body>
 
+@php
+    $company = App\Models\Company::first();
+@endphp
+
 <!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay">
     <div class="loader"></div>
@@ -531,13 +535,18 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="navbar">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
-            <i class="fas fa-ship"></i> PORTALIS
-            @auth
-                @if(auth()->user()->is_admin)
-                    <span class="admin-badge">ADMIN</span>
-                @endif
-            @endauth
-        </a>
+    @if($company && $company->logo)
+        <img src="{{ Storage::url($company->logo) }}" alt="Logo" style="height: 40px; margin-right: 10px;">
+    @else
+        <i class="fas fa-ship"></i>
+    @endif
+    PORTALIS
+    @auth
+        @if(auth()->user()->is_admin)
+            <span class="admin-badge">ADMIN</span>
+        @endif
+    @endauth
+</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -556,8 +565,10 @@
                     <a class="nav-link" href="{{ route('fleet') }}">Armada</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tracking') }}">Pelacakan</a>
-                </li>
+    <a class="nav-link" href="{{ route('tracking') }}" target="_blank">
+        <i class="fas fa-map-marker-alt"></i> Pelacakan
+    </a>
+</li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('partnerships') }}">Mitra</a>
                 </li>
@@ -614,10 +625,16 @@
 <!-- Footer -->
 <footer class="footer text-white py-5">
     <div class="container">
+        @php
+            $company = App\Models\Company::first();
+        @endphp
         <div class="row">
             <div class="col-md-4 mb-4" data-aos="fade-up">
-                <h5><i class="fas fa-ship"></i> Pusat Operasional Real-Time Armada & Layanan Informasi SPJM (PORTALIS)</h5>
-                <p class="mt-3">Melayani pandu kapal profesional dan terpercaya untuk keselamatan pelayaran Anda di perairan Indonesia.</p>
+                @if($company && $company->logo)
+                    <img src="{{ Storage::url($company->logo) }}" alt="Logo" style="max-height: 60px; margin-bottom: 15px;">
+                @endif
+                <h5><i class="fas fa-ship"></i> {{ $company->name ?? 'PORTALIS' }}</h5>
+                <p class="mt-3">{{ $company->description ?? 'Melayani pandu kapal profesional dan terpercaya untuk keselamatan pelayaran Anda di perairan Indonesia.' }}</p>
                 <div class="mt-3">
                     <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
                     <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
@@ -628,9 +645,9 @@
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <h5>Kontak Kami</h5>
                 <p>
-                    <i class="fas fa-map-marker-alt me-2"></i> Batam, Kepulauan Riau<br>
-                    <i class="fas fa-phone me-2"></i> (0778) 123456<br>
-                    <i class="fas fa-envelope me-2"></i> info@shippilot.com<br>
+                    <i class="fas fa-map-marker-alt me-2"></i> {{ $company->address ?? 'Batam, Kepulauan Riau' }}<br>
+                    <i class="fas fa-phone me-2"></i> {{ $company->phone ?? '(0778) 123456' }}<br>
+                    <i class="fas fa-envelope me-2"></i> {{ $company->email ?? 'info@shippilot.com' }}<br>
                     <i class="fas fa-clock me-2"></i> Senin - Kamis: 08:00 - 17:00<br>
                     <i class="fas fa-clock me-2"></i> Jumat: 07:30 - 16:30
                 </p>
@@ -646,7 +663,7 @@
         </div>
         <hr class="bg-light mt-4">
         <div class="text-center">
-            <small>&copy; {{ date('Y') }} Pusat Operasional Real-Time Armada & Layanan Informasi SPJM. All rights reserved. | Designed with <i class="fas fa-heart text-danger"></i> by SM</small>
+            <small>&copy; {{ date('Y') }} {{ $company->name ?? 'PORTALIS' }}. All rights reserved. | Designed with <i class="fas fa-heart text-danger"></i> by SM</small>
         </div>
     </div>
 </footer>

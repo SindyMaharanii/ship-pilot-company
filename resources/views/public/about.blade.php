@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang Kami - Ship Pilot Company')
+@section('title', 'Tentang Kami - PORTALIS')
 
 @section('content')
 <!-- Hero Section -->
@@ -25,6 +25,11 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4" data-aos="fade-right">
                 <div class="position-relative">
+                    @if($company && $company->logo)
+                        <div class="text-center mb-3">
+                            <img src="{{ Storage::url($company->logo) }}" alt="Logo" style="max-height: 100px;">
+                        </div>
+                    @endif
                     <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=400&fit=crop" alt="PT Pelindo Jasa Maritim Cabang Batam" class="img-fluid rounded-4 shadow-lg">
                     <div class="position-absolute bottom-0 end-0 bg-primary text-white p-3 rounded-start-4" style="transform: translateY(20px);">
                         <div class="text-center">
@@ -150,7 +155,6 @@
                 <div class="card border-0 shadow-lg rounded-4 h-100 overflow-hidden">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <!-- ===== BULAT BIRU DENGAN ICON MATA ===== -->
                             <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; background: #e3f2fd; color: #0066cc;">
                                 <i class="fas fa-eye" style="font-size: 36px;"></i>
                             </div>
@@ -166,7 +170,6 @@
                 <div class="card border-0 shadow-lg rounded-4 h-100 overflow-hidden">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <!-- ===== BULAT BIRU DENGAN ICON TARGET ===== -->
                             <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; background: #e3f2fd; color: #0066cc;">
                                 <i class="fas fa-bullseye" style="font-size: 36px;"></i>
                             </div>
@@ -175,7 +178,7 @@
                         <ul class="list-unstyled">
                             <li class="mb-3 d-flex align-items-start">
                                 <i class="fas fa-check-circle text-primary mt-1 me-3"></i>
-                                <span class="text-muted">Mewujudkan jaringan ekosistem maritim nasional melalui pengelolaan jasa kemaritiman yang handal, efisien, agile dan memenuhi harapan seluruh stakeholder untuk mendukung pertumbuhan ekonomi indonesia.</span>
+                                <span class="text-muted">{{ $company->mission ?? 'Mewujudkan jaringan ekosistem maritim nasional melalui pengelolaan jasa kemaritiman yang handal, efisien, agile dan memenuhi harapan seluruh stakeholder untuk mendukung pertumbuhan ekonomi indonesia.' }}</span>
                             </li>
                         </ul>
                     </div>

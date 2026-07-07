@@ -3,359 +3,506 @@
 @section('title', $ship->name . ' - Detail Kapal Pandu')
 
 @section('styles')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
+    /* ===== GLOBAL ===== */
     .info-item {
-        padding: 10px;
+        padding: 12px 16px;
         background: #f8f9fa;
         border-radius: 10px;
+        margin-bottom: 10px;
+        transition: background 0.2s;
     }
+    .info-item:hover {
+        background: #eef4ff;
+    }
+    .info-item label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6c757d;
+        margin-bottom: 2px;
+    }
+    .info-item h6 {
+        margin-bottom: 0;
+        font-weight: 700;
+        color: #1a2a3a;
+    }
+
     .spec-box {
+        padding: 16px 12px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        text-align: center;
         transition: all 0.3s ease;
+        height: 100%;
     }
     .spec-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 102, 204, 0.12);
+        background: #ffffff;
     }
+    .spec-box i {
+        font-size: 1.8rem;
+    }
+    .spec-box small {
+        display: block;
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-top: 4px;
+    }
+    .spec-box h5 {
+        font-weight: 700;
+        margin-top: 2px;
+        margin-bottom: 0;
+        color: #1a2a3a;
+    }
+
     .bg-gradient-primary {
-        background: linear-gradient(135deg, #0066cc, #00aaff);
+        background: linear-gradient(135deg, #004a99, #0073e6);
     }
+
     .btn-gradient {
-        background: linear-gradient(135deg, #0066cc, #00aaff);
-        color: white;
+        background: linear-gradient(135deg, #0066cc, #0099ff);
+        color: #fff;
         border: none;
+        transition: all 0.3s;
     }
+    .btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 102, 204, 0.35);
+        color: #fff;
+    }
+
     .btn-outline-gradient {
         background: transparent;
         border: 2px solid #0066cc;
         color: #0066cc;
+        transition: all 0.3s;
     }
-    .pilot-mini {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 10px;
-        padding: 10px 15px;
-        background: #f0f7ff;
-        border-radius: 10px;
-        border-left: 3px solid #0066cc;
-    }
-    .pilot-mini-photo {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #0066cc;
-    }
-    .pilot-mini-placeholder {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
+    .btn-outline-gradient:hover {
         background: #0066cc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        color: #fff;
+        transform: translateY(-2px);
     }
-    .pilot-mini-name {
-        font-weight: 700;
-        color: #0066cc;
-        font-size: 0.95rem;
+
+    .card-hover {
+        transition: all 0.3s ease;
+        overflow: hidden;
     }
-    .pilot-mini-call {
+    .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10) !important;
+    }
+
+    /* ===== FOTO KAPAL ===== */
+    .ship-photo-wrapper {
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .ship-photo-wrapper img {
+        transition: transform 0.5s ease;
+    }
+
+    .ship-photo-wrapper img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .ship-photo-wrapper {
+            min-height: 250px !important;
+        }
+        .ship-photo-wrapper img {
+            min-height: 250px !important;
+        }
+    }
+
+    /* Status Badge di atas foto */
+    .status-badge {
         font-size: 0.8rem;
-        color: #555;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        backdrop-filter: blur(4px);
     }
-    #shipMap {
-        height: 300px;
-        width: 100%;
-        border-radius: 12px;
-        z-index: 1;
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .ship-photo-card {
+            min-height: 280px;
+        }
     }
-    .text-black {
-        color: #000000 !important;
+
+    /* ===== ROW EQUAL HEIGHT ===== */
+    .equal-height-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
     }
-    .map-coord {
-        font-size: 12px;
-        padding: 8px 0;
+    .equal-height-row .col-left {
+        display: flex;
+        flex-direction: column;
+    }
+    .equal-height-row .col-left .card {
+        flex: 1;
+        height: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+    .equal-height-row .col-left .card .card-body {
+        padding: 0;
+        height: 100%;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .equal-height-row .col-right {
+        display: flex;
+        flex-direction: column;
+    }
+    .equal-height-row .col-right .right-stack {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 16px;
+    }
+    .equal-height-row .col-right .right-stack .card:first-child {
+        flex: 1;
+    }
+    .equal-height-row .col-right .right-stack .card:last-child {
+        flex-shrink: 0;
+    }
+
+    /* ===== PERBAIKI JARAK VESSELFINDER ===== */
+    #vesselfinder-ship {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        line-height: 0 !important;
+        font-size: 0 !important;
+        width: 100% !important;
+        height: 350px !important;
+        overflow: hidden !important;
+        border-radius: 0 0 16px 16px !important;
+    }
+
+    #vesselfinder-ship iframe,
+    #vesselfinder-ship object,
+    #vesselfinder-ship embed,
+    #vesselfinder-ship div,
+    #vesselfinder-ship * {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        vertical-align: bottom !important;
+        line-height: 0 !important;
+        font-size: 0 !important;
+    }
+
+    .vesselfinder-map,
+    .vesselfinder-container {
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        line-height: 0 !important;
+    }
+
+    /* ===== BADGE ===== */
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .equal-height-row {
+            flex-direction: column;
+        }
+        .ship-photo-card {
+            min-height: 250px;
+        }
+        #vesselfinder-ship {
+            height: 250px !important;
+        }
+        .page-hero {
+            height: 140px !important;
+        }
+        .page-hero h1 {
+            font-size: 1.8rem !important;
+        }
+        .btn-lg {
+            font-size: 0.95rem;
+            padding: 10px 24px !important;
+        }
+        .equal-height-row .col-right .right-stack {
+            gap: 12px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 991px) {
+        .ship-photo-card {
+            min-height: 300px;
+        }
     }
 </style>
 @endsection
 
 @section('content')
-<!-- Hero Section -->
-<section class="page-hero position-relative" style="height: 250px; background: linear-gradient(135deg, #001a33 0%, #003366 100%);">
+<!-- ===== HERO ===== -->
+<section class="page-hero position-relative" style="height: 200px; background: linear-gradient(135deg, #001a33 0%, #003366 100%);">
     <div class="container h-100 d-flex align-items-center">
         <div class="text-white">
-            <h1 class="display-4 fw-bold mb-2">{{ $ship->name }}</h1>
-            <p class="lead">Call Sign: {{ $ship->call_sign }} | Registrasi: {{ $ship->registration_number }}</p>
+            <h1 class="display-4 fw-bold mb-1">{{ $ship->name }}</h1>
+            <p class="lead mb-1">Call Sign: {{ $ship->call_sign }} | Registrasi: {{ $ship->registration_number }}</p>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-white text-decoration-none">Beranda</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('fleet') }}" class="text-white text-decoration-none">Armada</a></li>
-                    <li class="breadcrumb-item active text-white">{{ $ship->name }}</li>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-white text-decoration-none opacity-75">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fleet') }}" class="text-white text-decoration-none opacity-75">Armada</a></li>
+                    <li class="breadcrumb-item active text-white fw-semibold">{{ $ship->name }}</li>
                 </ol>
             </nav>
         </div>
     </div>
 </section>
 
+<!-- ===== MAIN CONTENT ===== -->
 <section class="py-4">
     <div class="container">
-        <div class="row">
-            <!-- Kiri: Foto Kapal + PETA -->
-            <div class="col-lg-6 mb-4">
-                <!-- Foto Kapal -->
-                <div class="position-relative">
-                    @if($ship->photo)
-                    <img src="{{ Storage::url($ship->photo) }}" class="img-fluid rounded-4 shadow" alt="{{ $ship->name }}" style="width: 100%;">
+
+        <!-- ===== ROW 1: FOTO PANDU + INFORMASI KAPAL ===== -->
+<div class="row g-4">
+
+    <!-- KIRI: Pandu -->
+    <div class="col-lg-4">
+        <div class="d-flex align-items-center h-100">
+            <div class="card border-0 shadow-lg rounded-4 card-hover w-100" style="max-height: 420px;">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="fas fa-user-helmet-safety me-2"></i> Pandu Kapal
+                    </h5>
+
+                    @if($ship->pilot_photo)
+                        <img src="{{ Storage::url($ship->pilot_photo) }}" 
+                             alt="Pilot {{ $ship->name }}"
+                             style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #0066cc;">
                     @else
-                    <img src="https://images.unsplash.com/photo-1572213426852-0e4edc62e5b3?w=600&h=400&fit=crop" class="img-fluid rounded-4 shadow" alt="Kapal" style="width: 100%;">
+                        <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #0066cc, #0099ff); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user fa-3x text-white"></i>
+                        </div>
                     @endif
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-{{ $ship->status_badge }} px-3 py-2 rounded-pill">
-                            <i class="fas fa-{{ $ship->status == 'available' ? 'check-circle' : ($ship->status == 'on_duty' ? 'ship' : ($ship->status == 'maintenance' ? 'tools' : 'ban')) }} me-1"></i>
-                            @if($ship->status == 'available') Tersedia
-                            @elseif($ship->status == 'on_duty') Bertugas
-                            @elseif($ship->status == 'maintenance') Perawatan
-                            @else Tidak Aktif
-                            @endif
-                        </span>
+
+                    <div class="fw-bold fs-5 text-primary mt-3">
+                        {{ $ship->pilot_name ?? 'Belum diisi' }}
+                    </div>
+                    <div class="text-muted small">
+                        <i class="fas fa-id-card me-1"></i> Call Sign: {{ $ship->call_sign }}
                     </div>
                 </div>
-
-                <!-- PETA DI BAWAH FOTO KAPAL -->
-@if($ship->current_latitude && $ship->current_longitude)
-<div class="card border-0 shadow-sm rounded-4 mt-3">
-    <div class="card-header bg-primary text-white py-2 rounded-top-4">
-        <h6 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i> Posisi Kapal</h6>
-    </div>
-    <div class="card-body p-0">
-        <!-- IFRAME GOOGLE MAPS - PASTI MUNCUL -->
-        <iframe 
-            src="https://www.google.com/maps?q={{ $ship->current_latitude }},{{ $ship->current_longitude }}&z=14&output=embed" 
-            width="100%" 
-            height="300" 
-            style="border:0; display:block;" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
-        <div class="p-2 bg-light map-coord">
-            <div class="p-2 bg-light map-coord">
-    <div class="row text-center">
-        <div class="col-4">
-            <div><i class="fas fa-map-pin text-primary"></i> <strong>Latitude:</strong></div>
-            <div class="fw-bold">{{ $ship->current_latitude }}</div>
-        </div>
-        <div class="col-4">
-            <div><i class="fas fa-map-pin text-primary"></i> <strong>Longitude:</strong></div>
-            <div class="fw-bold">{{ $ship->current_longitude }}</div>
-        </div>
-        <div class="col-4">
-            <div><i class="fas fa-clock text-primary"></i> <strong>Update:</strong></div>
-            <div class="fw-bold">{{ $ship->last_position_update ? $ship->last_position_update->format('d/m/Y H:i') : '-' }}</div>
+            </div>
         </div>
     </div>
-</div>
-        </div>
-    </div>
-</div>
-@endif
-            </div>
 
-            <div class="col-lg-6 mb-4">
-
-<!-- Informasi Kapal -->
-<div class="card border-0 shadow-sm rounded-4">
-    <div class="card-body p-4">
-
-        <h5 class="fw-bold mb-3">
-            <i class="fas fa-info-circle text-primary me-2"></i>
-            Informasi Kapal
-        </h5>
-
-        <!-- FOTO PROFIL PANDU -->
-        <div class="text-center mb-4 pb-3 border-bottom">
-
-            @if($ship->pilot_photo)
-                <img src="{{ Storage::url($ship->pilot_photo) }}"
-                     alt="Pandu"
-                     style="
-                        width:100px;
-                        height:100px;
-                        border-radius:50%;
-                        object-fit:cover;
-                        border:3px solid #0066cc;
-                     ">
-            @else
-                <div style="
-                    width:100px;
-                    height:100px;
-                    border-radius:50%;
-                    background:#0066cc;
-                    margin:auto;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                ">
-                    <i class="fas fa-user text-white fa-2x"></i>
-                </div>
-            @endif
-
-            <h6 class="fw-bold mt-3 mb-1">
-                {{ $ship->pilot_name ?? 'Belum diisi' }}
-            </h6>
-
-            <small class="text-muted">
-                <i class="fas fa-id-card"></i>
-                Call Sign: {{ $ship->call_sign }}
-            </small>
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-6">
-                <small class="text-muted">Nama Kapal</small>
-                <div class="fw-bold">{{ $ship->name }}</div>
-            </div>
-
-            <div class="col-6 mt-2">
-                <small class="text-muted">Nomor Registrasi</small>
-                <div class="fw-bold">
-                    {{ $ship->registration_number ?? '-' }}
-                </div>
-            </div>
-
-            <div class="col-6 mt-2">
-                <small class="text-muted">Tipe Kapal</small>
-                <div class="fw-bold">
-                    {{ $ship->type ?? '-' }}
-                </div>
-            </div>
-
-            <div class="col-6 mt-2">
-                <small class="text-muted">Kapasitas</small>
-                <div class="fw-bold">
-                    {{ $ship->capacity ?? '-' }} Orang
-                </div>
-            </div>
-
-            <div class="col-6 mt-2">
-                <small class="text-muted">Kecepatan Maks</small>
-                <div class="fw-bold">
-                    {{ $ship->speed ?? '-' }} Knot
-                </div>
-            </div>
-
-            <div class="col-12 mt-2">
-                <small class="text-muted">Deskripsi</small>
-                <div class="fw-bold">
-                    {{ $ship->description ?? '-' }}
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-<!-- Spesifikasi Teknis -->
-<div class="card border-0 shadow-sm rounded-4 mt-3">
-    <div class="card-body p-4">
-        <h5 class="fw-bold mb-3">
-            <i class="fas fa-ruler-combined text-primary me-2"></i>
-            Spesifikasi Teknis
-        </h5>
-
-        <div class="row text-center">
-
-            <div class="col-4">
-                <div class="border rounded-3 p-2 bg-light">
-                    <i class="fas fa-arrows-alt-h fa-2x text-primary mb-1"></i>
-                    <div class="fw-bold">
-                        {{ $ship->length ?? '-' }}
-                        <small>m</small>
+    <!-- KANAN: Informasi Kapal -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-4 text-primary">
+                    <i class="fas fa-info-circle me-2"></i> Informasi Kapal
+                </h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <label>Nama Kapal</label>
+                            <h6>{{ $ship->name }}</h6>
+                        </div>
                     </div>
-                    <small class="text-muted">Panjang</small>
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="border rounded-3 p-2 bg-light">
-                    <i class="fas fa-arrows-alt-v fa-2x text-primary mb-1"></i>
-                    <div class="fw-bold">
-                        {{ $ship->width ?? '-' }}
-                        <small>m</small>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <label>Call Sign</label>
+                            <h6>{{ $ship->call_sign }}</h6>
+                        </div>
                     </div>
-                    <small class="text-muted">Lebar</small>
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="border rounded-3 p-2 bg-light">
-                    <i class="fas fa-water fa-2x text-primary mb-1"></i>
-                    <div class="fw-bold">
-                        {{ $ship->draft ?? '-' }}
-                        <small>m</small>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <label>Nomor Registrasi</label>
+                            <h6>{{ $ship->registration_number ?? '-' }}</h6>
+                        </div>
                     </div>
-                    <small class="text-muted">Draft</small>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <label>Tipe Kapal</label>
+                            <h6>{{ $ship->type ?? '-' }}</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <label>Kapasitas</label>
+                            <h6>{{ $ship->capacity ?? '-' }} Orang</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <label>Kecepatan Maks</label>
+                            <h6>{{ $ship->speed ?? '-' }} Knot</h6>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="info-item">
+                            <label>Deskripsi</label>
+                            <p class="mb-0 text-dark">{{ $ship->description ?? '-' }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
-        <!-- Tombol Aksi -->
-        <div class="row mt-4">
+        <!-- ===== ROW 2: FOTO KAPAL + SPESIFIKASI + POSISI ===== -->
+        <div class="row g-4 mt-1">
+
+            <!-- KIRI: Foto Kapal -->
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center h-100">
+                    <div class="card border-0 shadow-lg rounded-4 card-hover w-100">
+                        <div class="card-body p-0">
+                            <div class="ship-photo-wrapper" style="width: 100%; height: 100%; min-height: 350px; position: relative; display: flex; align-items: center; justify-content: center; background: #e9ecef; overflow: hidden; border-radius: 16px;">
+                                @if($ship->photo)
+                                    <img src="{{ Storage::url($ship->photo) }}" 
+                                         alt="{{ $ship->name }}" 
+                                         style="width: 100%; height: 100%; min-height: 350px; object-fit: cover; object-position: center;">
+                                @else
+                                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; min-height: 350px; background: #f1f3f5; color: #adb5bd;">
+                                        <i class="fas fa-ship" style="font-size: 4rem; margin-bottom: 10px;"></i>
+                                        <span class="fw-semibold">Tidak ada foto</span>
+                                    </div>
+                                @endif
+                                
+                                <!-- Status Badge -->
+                                <div class="position-absolute bottom-0 start-0 m-3">
+                                    <span class="badge status-badge bg-{{ $ship->status_badge }}" style="font-size: 0.8rem; padding: 8px 20px; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+                                        @if($ship->status == 'available') 
+                                            <i class="fas fa-check-circle me-1"></i> Tersedia
+                                        @elseif($ship->status == 'on_duty') 
+                                            <i class="fas fa-ship me-1"></i> Bertugas
+                                        @elseif($ship->status == 'maintenance') 
+                                            <i class="fas fa-tools me-1"></i> Perawatan
+                                        @else
+                                            <i class="fas fa-times-circle me-1"></i> Tidak Aktif
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KANAN: Spesifikasi + Posisi -->
+            <div class="col-lg-8">
+                <div class="d-flex flex-column gap-3">
+                    
+                    <!-- Spesifikasi -->
+                    <div class="card border-0 shadow-lg rounded-4 card-hover">
+                        <div class="card-body p-4">
+                            <h4 class="fw-bold mb-4 text-primary">
+                                <i class="fas fa-ruler-combined me-2"></i> Spesifikasi Teknis
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="spec-box">
+                                        <i class="fas fa-arrows-alt-h text-primary"></i>
+                                        <small>Panjang</small>
+                                        <h5>{{ $ship->length ?? '-' }} m</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="spec-box">
+                                        <i class="fas fa-arrows-alt-v text-primary"></i>
+                                        <small>Lebar</small>
+                                        <h5>{{ $ship->width ?? '-' }} m</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="spec-box">
+                                        <i class="fas fa-water text-primary"></i>
+                                        <small>Draft</small>
+                                        <h5>{{ $ship->draft ?? '-' }} m</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Posisi Kapal (VesselFinder) -->
+                    <div class="card border-0 shadow-lg rounded-4 card-hover overflow-hidden" style="border-radius: 16px !important;">
+                        <div class="card-header bg-gradient-primary text-white" style="padding: 8px 16px !important; border-bottom: none !important;">
+                            <h5 class="fw-bold mb-0" style="font-size: 0.95rem; line-height: 1.2;">
+                                <i class="fas fa-map-marker-alt me-2"></i> Posisi Kapal
+                                <small class="fw-normal ms-2" style="font-size: 0.65rem; opacity: 0.8;">- Perairan Batam</small>
+                            </h5>
+                            <small class="fw-normal d-block" style="font-size: 0.6rem; opacity: 0.7; margin-top: -1px;">Data posisi kapal real-time dari VesselFinder</small>
+                        </div>
+                        <div id="vesselfinder-ship"></div>
+                        <script type="text/javascript">
+                            var width = "100%";
+                            var height = "350";
+                            var names = true;
+                            var mmsi = "{{ $ship->mmsi ?? '525100089' }}";
+                            var show_track = true;
+                        </script>
+                        <script type="text/javascript" src="https://www.vesselfinder.com/aismap.js"></script>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TOMBOL AKSI ===== -->
+        <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="{{ route('tracking') }}" class="btn btn-primary rounded-pill px-4 me-2">
-                    <i class="fas fa-map-marker-alt me-2"></i> Lihat Semua Kapal di Peta
+                <a href="{{ route('tracking') }}" class="btn btn-gradient btn-lg rounded-pill px-5 me-2 mb-2">
+                    <i class="fas fa-map-marker-alt me-2"></i> Lihat Semua Kapal
                 </a>
-                <a href="{{ route('contact') }}" class="btn btn-outline-primary rounded-pill px-4">
+                <a href="{{ route('contact') }}" class="btn btn-outline-gradient btn-lg rounded-pill px-5 mb-2">
                     <i class="fas fa-envelope me-2"></i> Ajukan Layanan
                 </a>
             </div>
         </div>
+
     </div>
 </section>
-@endsection
 
-@section('scripts')
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var lat = parseFloat('{{ $ship->current_latitude ?? 0 }}');
-        var lng = parseFloat('{{ $ship->current_longitude ?? 0 }}');
-        
-        console.log('Koordinat:', lat, lng);
-        
-        if (lat != 0 && lng != 0 && !isNaN(lat) && !isNaN(lng)) {
-            var map = L.map('shipMap').setView([lat, lng], 14);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
-            
-            var icon = L.divIcon({
-                html: '<div style="background:#0066cc; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white; box-shadow:0 2px 5px rgba(0,0,0,0.2);">' +
-                      '<i class="fas fa-ship" style="color:white; font-size:14px;"></i>' +
-                      '</div>',
-                iconSize: [30, 30]
-            });
-            
-            L.marker([lat, lng], { icon: icon })
-                .addTo(map)
-                .bindPopup('<b>{{ $ship->name }}</b><br>Pandu: {{ $ship->pilot_name ?? "-" }}')
-                .openPopup();
-            
-            setTimeout(function() {
-                map.invalidateSize();
-                console.log('Map resized');
-            }, 500);
-        } else {
-            document.getElementById('shipMap').innerHTML = '<div class="text-center p-4 text-muted">Belum ada koordinat</div>';
+        function setEqualHeight() {
+            var leftCard = document.querySelector('.equal-height-row .col-left .card');
+            var rightStack = document.querySelector('.equal-height-row .col-right .right-stack');
+            if (leftCard && rightStack) {
+                leftCard.style.height = 'auto';
+                var rightHeight = rightStack.offsetHeight;
+                if (rightHeight > 0) {
+                    leftCard.style.height = rightHeight + 'px';
+                }
+            }
         }
+        setTimeout(setEqualHeight, 200);
+        window.addEventListener('resize', setEqualHeight);
+        
+        // Re-run after VesselFinder loads
+        setTimeout(setEqualHeight, 1000);
+        setTimeout(setEqualHeight, 2000);
     });
 </script>
+@endpush
 @endsection
